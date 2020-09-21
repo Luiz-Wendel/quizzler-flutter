@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -49,7 +50,27 @@ class _QuizPageState extends State<QuizPage> {
     setState(() {
       scoreKeeper.add(addIcon);
 
-      quizBrain.nextQuestion();
+      if (!quizBrain.isFinished())
+        quizBrain.nextQuestion();
+      else {
+        Alert(
+            context: context,
+            title: 'Quiz has ended!',
+            desc: 'Congrats on finishing the quiz!',
+            buttons: [
+              DialogButton(
+                child: Text(
+                  'Restart',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () => Navigator.pop(context),
+              )
+            ]).show();
+
+        quizBrain.reset();
+
+        scoreKeeper = [];
+      }
     });
   }
 
