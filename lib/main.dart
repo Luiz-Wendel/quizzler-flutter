@@ -53,10 +53,18 @@ class _QuizPageState extends State<QuizPage> {
       if (!quizBrain.isFinished())
         quizBrain.nextQuestion();
       else {
+        int total = scoreKeeper.length;
+        int result = 0;
+
+        scoreKeeper.forEach((icon) {
+          if (icon.color == Colors.green) result++;
+        });
+
         Alert(
             context: context,
             title: 'Quiz has ended!',
-            desc: 'Congrats on finishing the quiz!',
+            desc:
+                'Congrats on finishing the quiz! \n Your score is: $result of $total!',
             buttons: [
               DialogButton(
                 child: Text(
