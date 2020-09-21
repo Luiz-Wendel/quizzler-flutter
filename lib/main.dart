@@ -30,6 +30,29 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getAnswer();
+    Icon addIcon;
+
+    if (correctAnswer == userPickedAnswer) {
+      addIcon = Icon(
+        Icons.check,
+        color: Colors.green,
+      );
+    } else {
+      addIcon = Icon(
+        Icons.close,
+        color: Colors.red,
+      );
+    }
+
+    setState(() {
+      scoreKeeper.add(addIcon);
+
+      quizBrain.nextQuestion();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,23 +89,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getAnswer();
-
-                if (correctAnswer == true) {
-                  print('Correct!');
-                } else {
-                  print('Wrong!');
-                }
-
-                setState(() {
-                  // scoreKeeper.add(
-                  //   Icon(
-                  //     Icons.check,
-                  //     color: Colors.green,
-                  //   ),
-                  // );
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(true);
               },
             ),
           ),
@@ -100,23 +107,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getAnswer();
-
-                if (correctAnswer == false) {
-                  print('Correct!');
-                } else {
-                  print('Wrong!');
-                }
-
-                setState(() {
-                  // scoreKeeper.add(
-                  //   Icon(
-                  //     Icons.close,
-                  //     color: Colors.red,
-                  //   ),
-                  // );
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(false);
               },
             ),
           ),
